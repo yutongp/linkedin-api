@@ -84,7 +84,7 @@ class Linkedin(object):
         evade()
 
         url = f"{self.client.API_BASE_URL if not base_request else self.client.LINKEDIN_BASE_URL}{uri}"
-        return self.client.session.get(url, **kwargs)
+        return self.client.session.get(url, timeout=15, **kwargs)
 
     def _cookies(self):
         """Return client cookies"""
