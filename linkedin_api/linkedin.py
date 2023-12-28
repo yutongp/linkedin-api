@@ -60,6 +60,7 @@ class Linkedin(object):
         proxies={},
         cookies=None,
         cookies_dir=None,
+        cookies_json=None,
     ):
         """Constructor method"""
         self.client = Client(
@@ -76,6 +77,8 @@ class Linkedin(object):
                 # If the cookies are expired, the API won't work anymore since
                 # `username` and `password` are not used at all in this case.
                 self.client._set_session_cookies(cookies)
+            elif cookies_json:
+                self.client.set_session_from_json(cookies_json, username)
             else:
                 self.client.authenticate(username, password)
 

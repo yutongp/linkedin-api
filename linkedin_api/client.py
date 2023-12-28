@@ -100,6 +100,20 @@ class Client(object):
         self._do_authentication_request(username, password)
         self._fetch_metadata()
 
+    def set_session_from_json(self, cookies_json, username):
+        j = json.loads(cookies_json)
+        session = requests.Session()
+        for cookie in j:
+            session.cookies.set(
+                cookie["name"],
+                cookie["value"],
+                domain=cookie["domain"],
+                path=cookie["path"],
+                expires=cookie.get("expirationDate", None),
+            )
+        self._set_session_cookies(session.cookies)
+        self._cookie_repository.save(session.cookies, username)
+
     def _fetch_metadata(self):
         """
         Get metadata about the "instance" of the LinkedIn application for the signed in user.
